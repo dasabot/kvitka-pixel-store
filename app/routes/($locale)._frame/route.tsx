@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from '@shopify/remix-oxygen'
+import { LoaderFunctionArgs, json } from '@shopify/remix-oxygen'
 import { SiteSettingsQuery } from 'storefrontapi.generated'
 import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from '~/graphql/layout'
 
@@ -35,5 +35,7 @@ export async function loader({ context: { storefront } }: LoaderFunctionArgs) {
 
   console.log(layout.headerMenu?.items[0].title)
 
-  return headerMenu
+  return json({
+    layout,
+  })
 }

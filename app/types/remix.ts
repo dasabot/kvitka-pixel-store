@@ -1,26 +1,25 @@
-import {ShouldRevalidateFunction} from '@remix-run/react';
-import {TypedDeferredData} from '@remix-run/server-runtime';
-import {TypedResponse} from '@shopify/remix-oxygen';
-import {JsonifyObject} from 'type-fest/source/jsonify';
+import { ShouldRevalidateFunction } from '@remix-run/react'
+import { TypedDeferredData } from '@remix-run/server-runtime'
+import { TypedResponse } from '@shopify/remix-oxygen'
+import { JsonifyObject } from 'type-fest/source/jsonify'
 
-import {loader as rootLoader} from '~/root';
+import { loader as rootLoader } from '~/root'
+import { loader as frameLoader } from '~/routes/($locale)._frame/route'
 
 export type ExtractDeferredLoaderDataType<
-  T extends (
-    P: any,
-  ) => Promise<Pick<TypedDeferredData<{[K: string]: any}>, 'data'>>,
-> = Pick<Awaited<ReturnType<T>>, 'data'>['data'];
+  T extends (P: any) => Promise<Pick<TypedDeferredData<{ [K: string]: any }>, 'data'>>,
+> = Pick<Awaited<ReturnType<T>>, 'data'>['data']
 
 export type ExtractJSONLoaderDataType<
-  T extends (P: any) => Promise<TypedResponse<{[K: string]: any}>>,
-> = Awaited<ReturnType<Pick<Awaited<ReturnType<T>>, 'json'>['json']>>;
+  T extends (P: any) => Promise<TypedResponse<{ [K: string]: any }>>,
+> = Awaited<ReturnType<Pick<Awaited<ReturnType<T>>, 'json'>['json']>>
 
 export type LoaderData = {
-  root: ExtractDeferredLoaderDataType<typeof rootLoader>;
-};
+  root: ExtractDeferredLoaderDataType<typeof rootLoader>
+  frame: ExtractJSONLoaderDataType<typeof frameLoader>
+}
 
-export type ShouldRevalidateFunctionArgs =
-  Parameters<ShouldRevalidateFunction>[0];
+export type ShouldRevalidateFunctionArgs = Parameters<ShouldRevalidateFunction>[0]
 
 /**
  * We need this type because `JsonifyObject<SeoConfig>` is incompatible with `getSeoMeta` which expects `SeoConfig`
@@ -30,6 +29,4 @@ export type ShouldRevalidateFunctionArgs =
  * What this solution allows is for us to cast `data.seo` to `SeoConfig` without explicitly doing so,
  * which is better than the alternatives (casting to SeoConfig or any).
  */
-export type ExtractJsonifyType<T> = T extends JsonifyObject<infer U>
-  ? U
-  : never;
+export type ExtractJsonifyType<T> = T extends JsonifyObject<infer U> ? U : never

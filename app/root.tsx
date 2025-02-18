@@ -1,27 +1,7 @@
-// import {useNonce, getShopAnalytics, Analytics} from '@shopify/hydrogen';
-// import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-// import {
-//   Links,
-//   Meta,
-//   Outlet,
-//   Scripts,
-//   useRouteError,
-//   useRouteLoaderData,
-//   ScrollRestoration,
-//   isRouteErrorResponse,
-//   type ShouldRevalidateFunction,
-// } from '@remix-run/react';
-// import favicon from '~/assets/favicon.svg';
-// import resetStyles from '~/styles/reset.css?url';
-// import appStyles from '~/styles/app.css?url';
-// import tailwindCss from './styles/tailwind.css?url';
-// import {PageLayout} from '~/components/layout/PageLayout';
-// import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
-
 import { LinksFunction, LoaderFunctionArgs, defer } from '@shopify/remix-oxygen'
 import { ROOT_LOCALIZATION_QUERY } from './graphql/layout'
 import { LoaderData } from './types/remix'
-import { LiveReload, Outlet, useLoaderData } from '@remix-run/react'
+import { Links, LiveReload, Outlet, useLoaderData } from '@remix-run/react'
 import { DEFAULT_LOCALE } from './lib/utils'
 import { useNonce } from '@shopify/hydrogen'
 
@@ -207,13 +187,15 @@ import { useNonce } from '@shopify/hydrogen'
 //     </div>
 //   );
 // }
+import stylesApp from './styles/app.css'
+import stylesReset from './styles/reset.css'
+import stylesTailwind from './styles/tailwind.css'
 
 export const links: LinksFunction = () => {
   const externalLinks = [
-    // ...(cssBundleHref ? [{ rel: 'preload stylesheet', href: cssBundleHref, as: 'style' }] : []),
-    // ...(process.env.NODE_ENV === 'development' ? [{ rel: 'stylesheet', href: rdtStylesheet }] : []),
-    // { rel: 'preload stylesheet', href: stylesReset, as: 'style' },
-    // { rel: 'preload stylesheet', href: stylesApp, as: 'style' },
+    { rel: 'preload', href: stylesReset, as: 'style' },
+    { rel: 'preload', href: stylesApp, as: 'style' },
+    { rel: 'preload', href: stylesTailwind, as: 'style' },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -222,7 +204,11 @@ export const links: LinksFunction = () => {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    // { rel: 'icon', type: 'image/png', href: favicon },
+    // Add the Google Fonts stylesheet for Roboto Mono
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap',
+    },
   ]
 
   return externalLinks
@@ -280,11 +266,15 @@ const App = () => {
         {/* <Seo /> */}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        {/* <Meta />
+        {/* <link href="./styles/app.css" rel="stylesheet"></link>
+        <link href="./styles/tailwind.css" rel="stylesheet"></link> */}
         <Links />
+        {/* <Meta />
+
         <ThirdPartyScripts /> */}
       </head>
       <body>
+        <span className="text-3xl">Discover the enchanting world of pixelat</span>
         <Outlet />
         <div id="js-portal" />
       </body>
