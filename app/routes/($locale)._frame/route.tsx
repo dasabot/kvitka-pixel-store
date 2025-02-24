@@ -1,6 +1,8 @@
-import { LoaderFunctionArgs, json } from '@shopify/remix-oxygen'
+import { LoaderFunctionArgs } from '@shopify/remix-oxygen'
 import { SiteSettingsQuery } from 'storefrontapi.generated'
 import { LAYOUT_QUERY, SITE_SETTINGS_QUERY } from '~/graphql/layout'
+import FrameLayout from './sections/FrameLayout'
+import { Outlet } from '@remix-run/react'
 
 export async function loader({ context: { storefront } }: LoaderFunctionArgs) {
   const { country, language } = storefront.i18n
@@ -33,9 +35,16 @@ export async function loader({ context: { storefront } }: LoaderFunctionArgs) {
 
   const layout = await storefront.query(LAYOUT_QUERY, layoutQueryParams)
 
-  console.log(layout.headerMenu?.items[0].title)
-
-  return json({
+  console.log('layout1:', layout)
+  return {
     layout,
-  })
+  }
 }
+
+const MainFrame = () => (
+  <FrameLayout>
+    <Outlet />
+  </FrameLayout>
+)
+
+export default MainFrame

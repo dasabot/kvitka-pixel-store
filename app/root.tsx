@@ -1,9 +1,8 @@
 import { LinksFunction, LoaderFunctionArgs, defer } from '@shopify/remix-oxygen'
 import { ROOT_LOCALIZATION_QUERY } from './graphql/layout'
 import { LoaderData } from './types/remix'
-import { Links, LiveReload, Outlet, useLoaderData } from '@remix-run/react'
+import { Links, LiveReload, Meta, Outlet, Scripts, useLoaderData } from '@remix-run/react'
 import { DEFAULT_LOCALE } from './lib/utils'
-import { useNonce } from '@shopify/hydrogen'
 
 // export type RootLoader = typeof loader;
 
@@ -187,15 +186,16 @@ import { useNonce } from '@shopify/hydrogen'
 //     </div>
 //   );
 // }
-import stylesApp from './styles/app.css'
-import stylesReset from './styles/reset.css'
-import stylesTailwind from './styles/tailwind.css'
+// import stylesApp from
+// import stylesReset from
+// import stylesTailwind from
+import { Seo, useNonce } from '@shopify/hydrogen'
 
 export const links: LinksFunction = () => {
   const externalLinks = [
-    { rel: 'preload', href: stylesReset, as: 'style' },
-    { rel: 'preload', href: stylesApp, as: 'style' },
-    { rel: 'preload', href: stylesTailwind, as: 'style' },
+    // { rel: 'preload', href: './styles/app.css', as: 'style' },
+    // { rel: 'preload', href: './styles/reset.css', as: 'style' },
+    // { rel: 'preload', href: './styles/tailwind.css', as: 'style' },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -204,29 +204,13 @@ export const links: LinksFunction = () => {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    // Add the Google Fonts stylesheet for Roboto Mono
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap',
-    },
   ]
 
   return externalLinks
 }
 
-export async function loader({
-  context: { storefront, session, cart, env },
-  request: { url, headers },
-  params: { lang },
-}: LoaderFunctionArgs) {
-  // const customerAccessToken: string = (await session.get('customerAccessToken')) ?? ''
-  // let savedLocale: CountryCode | undefined = await session.get('savedLocale')
-
+export async function loader({ context: { storefront, session, env } }: LoaderFunctionArgs) {
   const { country, language } = storefront.i18n
-
-  // const isAuthenticated = Boolean(customerAccessToken)
-  // const isUSA = country === 'US'
-  // const modifiedCountry = getModifiedCountry(country)
 
   const fecthLocalization = storefront.query(ROOT_LOCALIZATION_QUERY, {
     variables: {
@@ -260,23 +244,24 @@ const App = () => {
   const { selectedLocale } = useLoaderData() as LoaderData['root']
   const { language } = selectedLocale ?? DEFAULT_LOCALE
 
+  const nonce = useNonce()
+
   return (
     <html lang={language}>
       <head>
-        {/* <Seo /> */}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        {/* <link href="./styles/app.css" rel="stylesheet"></link>
-        <link href="./styles/tailwind.css" rel="stylesheet"></link> */}
-        <Links />
-        {/* <Meta />
+        <link rel="stylesheet" href="app/styles/tailwind.css" />
+        <link rel="stylesheet" href="app/styles/app.css" />
+        <link rel="stylesheet" href="app/styles/reset.css" />
 
-        <ThirdPartyScripts /> */}
+        <Links />
+        <Meta />
       </head>
       <body>
-        <span className="text-3xl">Discover the enchanting world of pixelat</span>
         <Outlet />
         <div id="js-portal" />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   )

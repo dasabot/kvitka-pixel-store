@@ -122,3 +122,22 @@ export const LAYOUT_QUERY = `#graphql
     url
   }
 ` as const
+
+// export const HOMEPAGE_QUERY = `#graphql
+//   query Homepage (
+//     $country: CountryCode
+//     $language: LanguageCode
+//   ) @inContext(country: $country, language: $language) {
+//     localization {
+//       country {
+//         name
+//         isoCode
+//         currency {
+//           isoCode
+//           name
+//           symbol
+//         }
+//       }
+//     }
+//   }
+// }` as const

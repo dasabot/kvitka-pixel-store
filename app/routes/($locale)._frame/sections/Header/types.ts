@@ -1,9 +1,5 @@
-import { MenuItemFragment } from 'storefrontapi.generated'
-
-// type Menu = MenuItemFragment & {
-//   items?: Menu[]
-// }
+import { LayoutQuery } from 'storefrontapi.generated'
 
 export type HeaderProps = {
-  menu?: any
+  menu?: LayoutQuery['headerMenu']
 }
