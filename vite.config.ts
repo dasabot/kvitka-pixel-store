@@ -4,10 +4,11 @@ import { oxygen } from '@shopify/mini-oxygen/vite'
 import { vitePlugin as remix } from '@remix-run/dev'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
+import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
   plugins: [
-    tailwindcss(),
+    [tailwindcss()],
     hydrogen(),
     oxygen(),
     remix({
