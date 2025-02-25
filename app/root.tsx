@@ -191,9 +191,10 @@ import { DEFAULT_LOCALE } from './lib/utils'
 // import stylesTailwind from
 import { Seo, useNonce } from '@shopify/hydrogen'
 import { cssBundleHref } from '@remix-run/css-bundle'
-import appStyles from '~/styles/app.css'
-import resetStyles from '~/styles/reset.css'
-import tailwindStyles from '~/styles/tailwind.css'
+import './styles/app.css'
+import appStyles from '~/styles/app.css?url'
+import resetStyles from '~/styles/reset.css?url'
+import tailwindStyles from '~/styles/tailwind.css?url'
 
 export const links: LinksFunction = () => {
   const externalLinks = [
