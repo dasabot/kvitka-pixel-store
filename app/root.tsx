@@ -190,12 +190,13 @@ import { DEFAULT_LOCALE } from './lib/utils'
 // import stylesReset from
 // import stylesTailwind from
 import { Seo, useNonce } from '@shopify/hydrogen'
+import { cssBundleHref } from '@remix-run/css-bundle'
 
 export const links: LinksFunction = () => {
   const externalLinks = [
-    // { rel: 'preload', href: './styles/app.css', as: 'style' },
-    // { rel: 'preload', href: './styles/reset.css', as: 'style' },
-    // { rel: 'preload', href: './styles/tailwind.css', as: 'style' },
+    { rel: 'stylesheet', href: 'app/styles/app.css' },
+    { rel: 'stylesheet', href: 'app/styles/reset.css' },
+    { rel: 'stylesheet', href: 'app/styles/tailwind.css' },
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -205,6 +206,10 @@ export const links: LinksFunction = () => {
       href: 'https://shop.app',
     },
   ]
+
+  if (cssBundleHref) {
+    externalLinks.unshift({ rel: 'stylesheet', href: cssBundleHref })
+  }
 
   return externalLinks
 }
@@ -251,9 +256,9 @@ const App = () => {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href="app\styles\tailwind.css" />
+        {/* <link rel="stylesheet" href="app\styles\tailwind.css" />
         <link rel="stylesheet" href="app\styles\app.css" />
-        <link rel="stylesheet" href="app\styles\reset.css" />
+        <link rel="stylesheet" href="app\styles\reset.css" /> */}
 
         <Links />
         <Meta />
