@@ -2,6 +2,9 @@ import Container from '~/components/Container'
 import { HeaderProps } from './types'
 import NavLinkDropDown from './components/NavLinkDropDown'
 import { useState } from 'react'
+import searchIcon from 'app/assets/search-icon1.png'
+import accountIcon from 'app/assets/account-icon1.png'
+import emptyCartIcon from 'app/assets/shopping-cart-empty1.png'
 
 const Header = ({ menu }: HeaderProps) => {
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null)
@@ -24,7 +27,23 @@ const Header = ({ menu }: HeaderProps) => {
             ))}
           </ul>
         </nav>
-        <ul className="w-[200px]"></ul>
+        <ul className="flex gap-[12px]">
+          <li>
+            <button className="size-[28px] px-[3px] hover:bg-[rgba(232,232,232,0.59)]">
+              <img src={searchIcon} className="size-full" />
+            </button>
+          </li>
+          <li>
+            <button className="size-[28px] px-[3px] hover:bg-[rgba(232,232,232,0.59)]">
+              <img src={accountIcon} className="size-full" />
+            </button>
+          </li>
+          <li>
+            <button className="size-[28px] px-[3px] hover:bg-[rgba(232,232,232,0.59)]">
+              <img src={emptyCartIcon} className="size-full" />
+            </button>
+          </li>
+        </ul>
       </Container>
     </div>
   )
