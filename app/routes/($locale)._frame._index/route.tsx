@@ -43,7 +43,7 @@ export async function loader({
 
 export default function Homepage() {
   const { sections } = useLoaderData<typeof loader>()
-  console.log('sections:', sections)
+  
   return (
     <>
       {sections?.map((section) =>
