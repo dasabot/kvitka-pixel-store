@@ -1,13 +1,8 @@
 import { Link } from '@remix-run/react'
-import { NavLinkDropDownProps } from './types'
+import { NavLinkProps } from './types'
 import { MenuItemFragment } from 'storefrontapi.generated'
 
-const NavLinkDropDown = ({
-  navItem,
-  activeMenuIndex,
-  setActiveMenuIndex,
-  isMenuOpened,
-}: NavLinkDropDownProps) => {
+const NavLink = ({ navItem }: NavLinkProps) => {
   const { title, url, items } = navItem
   return (
     <div className="relative group">
@@ -16,8 +11,8 @@ const NavLinkDropDown = ({
       </Link>
       {items.length ? (
         <ul className="hidden absolute top-8 bg-white border border-[#030303] shadow-[2px_2px_0px_rgba(0,0,0,0.8)] min-w-[100px] w-fit px-2 py-2 group-hover:block">
-          {items.map(({ url, title }: MenuItemFragment) => (
-            <li className="px-2 py-0 hover:bg-[rgba(232,232,232,0.59)]">
+          {items.map(({ id, url, title }: MenuItemFragment) => (
+            <li key={id} className="px-2 py-0 hover:bg-[rgba(232,232,232,0.59)]">
               <Link className="whitespace-nowrap cursor-pointer py-[3px] " to={url || ''}>
                 {title}
               </Link>
@@ -29,4 +24,4 @@ const NavLinkDropDown = ({
   )
 }
 
-export default NavLinkDropDown
+export default NavLink

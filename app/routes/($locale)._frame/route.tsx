@@ -34,8 +34,7 @@ export async function loader({ context: { storefront } }: LoaderFunctionArgs) {
   }
 
   const layout = await storefront.query(LAYOUT_QUERY, layoutQueryParams)
-
-  console.log('layout1:', layout)
+  
   return {
     layout,
   }
