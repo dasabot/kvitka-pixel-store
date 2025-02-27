@@ -1,0 +1,1 @@
+export { default as HERO_BANNER_FRAGMENT } from './HeroBanner'
