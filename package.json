@@ -12,28 +12,39 @@
     "typecheck": "tsc --noEmit",
     "codegen": "shopify hydrogen codegen"
   },
-  "prettier": "@shopify/prettier-config",
+  "prettier": {
+    "arrowParens": "always",
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "all",
+    "semi": false,
+    "printWidth": 100
+  },
   "dependencies": {
+    "@remix-run/css-bundle": "^2.15.3",
     "@remix-run/react": "^2.15.2",
     "@remix-run/server-runtime": "^2.15.2",
     "@shopify/hydrogen": "2025.1.0",
     "@shopify/remix-oxygen": "^2.0.10",
+    "@tailwindcss/vite": "^4.0.7",
+    "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "isbot": "^3.8.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^4.0.7"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.2",
     "@remix-run/dev": "^2.15.2",
     "@remix-run/eslint-config": "^2.15.2",
-    "@shopify/cli": "~3.74.1",
+    "@shopify/cli": "^3.75.2",
     "@shopify/hydrogen-codegen": "^0.3.2",
     "@shopify/mini-oxygen": "^3.1.1",
     "@shopify/oxygen-workers-types": "^4.1.2",
     "@shopify/prettier-config": "^1.1.2",
-    "@tailwindcss/vite": "4.0.0-beta.8",
     "@total-typescript/ts-reset": "^0.4.2",
     "@types/eslint": "^8.4.10",
     "@types/react": "^18.2.22",
@@ -41,6 +52,7 @@
     "eslint": "^8.20.0",
     "eslint-plugin-hydrogen": "0.12.2",
     "prettier": "^2.8.4",
+    "remix-development-tools": "^4.7.7",
     "typescript": "^5.2.2",
     "vite": "^5.1.8",
     "vite-tsconfig-paths": "^4.3.1"
