@@ -12,9 +12,9 @@ export const fetchSectionData = (storefront: Storefront, section: Partial<Metaob
     cache: makeCacheShortEdge(storefront),
     variables: { id, country, language },
   }
-console.log('fetch section', section)
+
   const query = {
-    HERO_BANNER_SECTION_: SECTION_HERO_BANNER_QUERY,
+    HERO_BANNER_SECTION: SECTION_HERO_BANNER_QUERY,
   }[type.toUpperCase()]
 
   if (!query) return Promise.resolve()
@@ -24,7 +24,7 @@ console.log('fetch section', section)
 
 export const RenderSections = ({ sectionData }: SectionsTypes) => {
   switch (sectionData?.type) {
-    case 'hero_banner_section_':
+    case 'hero_banner_section':
       return <HeroBanner {...sectionData} />
     default:
       return <></>

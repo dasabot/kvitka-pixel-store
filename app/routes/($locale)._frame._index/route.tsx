@@ -1,5 +1,4 @@
 import { useLoaderData } from '@remix-run/react'
-import { Metaobject } from '@shopify/hydrogen/storefront-api-types'
 import { LoaderFunctionArgs } from '@shopify/remix-oxygen'
 import { countries } from '~/graphql/data/countries'
 import { HOMEPAGE_QUERY } from '~/graphql/homepage'
@@ -43,7 +42,7 @@ export async function loader({
 
 export default function Homepage() {
   const { sections } = useLoaderData<typeof loader>()
-  
+
   return (
     <>
       {sections?.map((section) =>

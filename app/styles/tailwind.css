@@ -4,3 +4,17 @@
  */
 
 @import 'tailwindcss';
+
+@layer components {
+  .large {
+    @apply max-w-[1560px] px-[10px] my-[10px] md:px-0 sm:px-[10px] sm:my-[10px];
+  }
+
+  .fullWidth {
+    @apply max-w-none mx-auto px-0 sm:px-0;
+  }
+
+  .fullWidth {
+    max-width: none !important;
+  }
+}
