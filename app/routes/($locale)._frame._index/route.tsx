@@ -1,5 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
-import { LoaderFunctionArgs } from '@shopify/remix-oxygen'
+import { LoaderFunctionArgs, json } from '@shopify/remix-oxygen'
 import { countries } from '~/graphql/data/countries'
 import { HOMEPAGE_QUERY } from '~/graphql/homepage'
 import { RenderSections, fetchSectionData } from '~/helpers/sections'
@@ -35,9 +35,9 @@ export async function loader({
     ? await Promise.all(sectionTypes?.map((section) => fetchSectionData(storefront, section)))
     : null
 
-  return {
+  return json({
     sections,
-  }
+  })
 }
 
 export default function Homepage() {

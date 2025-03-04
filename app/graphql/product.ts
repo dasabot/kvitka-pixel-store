@@ -1,5 +1,5 @@
 
-const PRODUCT_VARIANT_FRAGMENT = `#graphql
+export const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
     availableForSale
     compareAtPrice {
@@ -36,7 +36,7 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
   }
 ` as const;
 
-const PRODUCT_FRAGMENT = `#graphql
+export const PRODUCT_FRAGMENT = `#graphql
   fragment Product on Product {
     id
     title
@@ -46,43 +46,18 @@ const PRODUCT_FRAGMENT = `#graphql
     description
     encodedVariantExistence
     encodedVariantAvailability
-    options {
-      name
-      optionValues {
-        name
-        firstSelectableVariant {
-          ...ProductVariant
-        }
-        swatch {
-          color
-          image {
-            previewImage {
-              url
-            }
-          }
-        }
-      }
-    }
-    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
-      ...ProductVariant
-    }
-    adjacentVariants (selectedOptions: $selectedOptions) {
-      ...ProductVariant
-    }
     seo {
       description
       title
     }
   }
-  ${PRODUCT_VARIANT_FRAGMENT}
 ` as const;
 
-const PRODUCT_QUERY = `#graphql
+export const PRODUCT_QUERY = `#graphql
   query Product(
     $country: CountryCode
     $handle: String!
     $language: LanguageCode
-    $selectedOptions: [SelectedOptionInput!]!
   ) @inContext(country: $country, language: $language) {
     product(handle: $handle) {
       ...Product

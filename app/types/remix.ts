@@ -1,10 +1,11 @@
 import { ShouldRevalidateFunction } from '@remix-run/react'
 import { TypedDeferredData } from '@remix-run/server-runtime'
 import { TypedResponse } from '@shopify/remix-oxygen'
-import { JsonifyObject } from 'type-fest/source/jsonify'
+// import { JsonifyObject } from 'type-fest/source/jsonify'
 
 import { loader as rootLoader } from '~/root'
 import { loader as frameLoader } from '~/routes/($locale)._frame/route'
+import { loader as collectionLoader } from '~/routes/($locale)._frame.collections.$handle/route'
 
 export type ExtractDeferredLoaderDataType<
   T extends (P: any) => Promise<Pick<TypedDeferredData<{ [K: string]: any }>, 'data'>>,
@@ -17,6 +18,7 @@ export type ExtractJSONLoaderDataType<
 export type LoaderData = {
   root: ExtractDeferredLoaderDataType<typeof rootLoader>
   frame: ExtractJSONLoaderDataType<typeof frameLoader>
+  collection: ExtractJSONLoaderDataType<typeof collectionLoader>
 }
 
 export type ShouldRevalidateFunctionArgs = Parameters<ShouldRevalidateFunction>[0]
@@ -29,4 +31,4 @@ export type ShouldRevalidateFunctionArgs = Parameters<ShouldRevalidateFunction>[
  * What this solution allows is for us to cast `data.seo` to `SeoConfig` without explicitly doing so,
  * which is better than the alternatives (casting to SeoConfig or any).
  */
-export type ExtractJsonifyType<T> = T extends JsonifyObject<infer U> ? U : never
+// export type ExtractJsonifyType<T> = T extends JsonifyObject<infer U> ? U : never
