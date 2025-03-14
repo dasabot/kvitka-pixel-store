@@ -11,8 +11,8 @@ const Header = ({ menu }: HeaderProps) => (
       <a className="w-[100px] h-[50px] bg-amber-200 block">logo</a>
       <nav className="flex items-center justify-center">
         <ul className="flex justify-center items-center gap-8">
-          {menu?.items.map((item) => (
-            <NavLink navItem={item}></NavLink>
+          {menu?.items.map((item, id) => (
+            <NavLink key={id} navItem={item}></NavLink>
           ))}
         </ul>
       </nav>

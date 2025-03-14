@@ -1,5 +1,52 @@
-import { PRODUCT_FRAGMENT } from './product'
 import { HERO_BANNER_FRAGMENT } from './sections'
+
+export const COLLECTION_PRODUCT_VARIANT_FRAGMENT = `#graphql
+fragment CollectionProductVariant on ProductVariant {
+  id
+  title
+  price {
+    currencyCode
+    amount
+  }
+  compareAtPrice {
+    currencyCode
+    amount
+  }
+
+}
+` as const
+
+export const COLLECTION_PRODUCT_CARD_FRAGMENT = `#graphql
+fragment CollectionProductCard on Product {
+  id
+  title
+  handle
+  productType
+  featuredImage {
+    __typename
+    url
+    height
+    width
+    altText
+  }
+  images (first: 10) {
+      nodes  {
+        __typename
+        altText
+        height
+        width
+        url
+      }
+  }
+  variants(first: 20) {
+    nodes {
+      ...CollectionProductVariant
+    }
+  }
+}
+${COLLECTION_PRODUCT_VARIANT_FRAGMENT}
+` as const
+
 export const COLLECTION_FRAGMENT = `#graphql
 fragment Collection on Collection {
   id
@@ -12,6 +59,7 @@ fragment Collection on Collection {
   description
   descriptionHtml
   image {
+    __typename
     url
     altText
     width
@@ -29,7 +77,7 @@ fragment Collection on Collection {
   }
   products(first: 250) {
     nodes {
-      ...Product
+      ...CollectionProductCard
     }
   }
   collectionHero:metafield(namespace:"custom",key:"collection_hero") {
@@ -39,7 +87,7 @@ fragment Collection on Collection {
   }
 }
 ${HERO_BANNER_FRAGMENT}
-${PRODUCT_FRAGMENT}
+${COLLECTION_PRODUCT_CARD_FRAGMENT}
 ` as const
 
 export const COLLECTION_QUERY = `#graphql

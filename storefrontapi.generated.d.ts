@@ -3,12 +3,44 @@
 /* eslint-disable */
 import type * as StorefrontAPI from '@shopify/hydrogen/storefront-api-types'
 
+export type CollectionProductVariantFragment = Pick<
+  StorefrontAPI.ProductVariant,
+  'id' | 'title'
+> & {
+  price: Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
+  compareAtPrice?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>>
+}
+
+export type CollectionProductCardFragment = Pick<
+  StorefrontAPI.Product,
+  'id' | 'title' | 'handle' | 'productType'
+> & {
+  featuredImage?: StorefrontAPI.Maybe<
+    { __typename: 'Image' } & Pick<StorefrontAPI.Image, 'url' | 'height' | 'width' | 'altText'>
+  >
+  images: {
+    nodes: Array<
+      { __typename: 'Image' } & Pick<StorefrontAPI.Image, 'altText' | 'height' | 'width' | 'url'>
+    >
+  }
+  variants: {
+    nodes: Array<
+      Pick<StorefrontAPI.ProductVariant, 'id' | 'title'> & {
+        price: Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
+        compareAtPrice?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>>
+      }
+    >
+  }
+}
+
 export type CollectionFragment = Pick<
   StorefrontAPI.Collection,
   'id' | 'handle' | 'title' | 'description' | 'descriptionHtml'
 > & {
   seo: Pick<StorefrontAPI.Seo, 'title' | 'description'>
-  image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>>
+  image?: StorefrontAPI.Maybe<
+    { __typename: 'Image' } & Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+  >
   sections?: StorefrontAPI.Maybe<{
     references?: StorefrontAPI.Maybe<{
       nodes: Array<Pick<StorefrontAPI.Metaobject, 'type' | 'id'>>
@@ -16,17 +48,32 @@ export type CollectionFragment = Pick<
   }>
   products: {
     nodes: Array<
-      Pick<
-        StorefrontAPI.Product,
-        | 'id'
-        | 'title'
-        | 'vendor'
-        | 'handle'
-        | 'descriptionHtml'
-        | 'description'
-        | 'encodedVariantExistence'
-        | 'encodedVariantAvailability'
-      > & { seo: Pick<StorefrontAPI.Seo, 'description' | 'title'> }
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'productType'> & {
+        featuredImage?: StorefrontAPI.Maybe<
+          { __typename: 'Image' } & Pick<
+            StorefrontAPI.Image,
+            'url' | 'height' | 'width' | 'altText'
+          >
+        >
+        images: {
+          nodes: Array<
+            { __typename: 'Image' } & Pick<
+              StorefrontAPI.Image,
+              'altText' | 'height' | 'width' | 'url'
+            >
+          >
+        }
+        variants: {
+          nodes: Array<
+            Pick<StorefrontAPI.ProductVariant, 'id' | 'title'> & {
+              price: Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
+              compareAtPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
+              >
+            }
+          >
+        }
+      }
     >
   }
   collectionHero?: StorefrontAPI.Maybe<{
@@ -72,7 +119,9 @@ export type CollectionQuery = {
       'id' | 'handle' | 'title' | 'description' | 'descriptionHtml'
     > & {
       seo: Pick<StorefrontAPI.Seo, 'title' | 'description'>
-      image?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>>
+      image?: StorefrontAPI.Maybe<
+        { __typename: 'Image' } & Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >
       sections?: StorefrontAPI.Maybe<{
         references?: StorefrontAPI.Maybe<{
           nodes: Array<Pick<StorefrontAPI.Metaobject, 'type' | 'id'>>
@@ -80,17 +129,32 @@ export type CollectionQuery = {
       }>
       products: {
         nodes: Array<
-          Pick<
-            StorefrontAPI.Product,
-            | 'id'
-            | 'title'
-            | 'vendor'
-            | 'handle'
-            | 'descriptionHtml'
-            | 'description'
-            | 'encodedVariantExistence'
-            | 'encodedVariantAvailability'
-          > & { seo: Pick<StorefrontAPI.Seo, 'description' | 'title'> }
+          Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'productType'> & {
+            featuredImage?: StorefrontAPI.Maybe<
+              { __typename: 'Image' } & Pick<
+                StorefrontAPI.Image,
+                'url' | 'height' | 'width' | 'altText'
+              >
+            >
+            images: {
+              nodes: Array<
+                { __typename: 'Image' } & Pick<
+                  StorefrontAPI.Image,
+                  'altText' | 'height' | 'width' | 'url'
+                >
+              >
+            }
+            variants: {
+              nodes: Array<
+                Pick<StorefrontAPI.ProductVariant, 'id' | 'title'> & {
+                  price: Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
+                  compareAtPrice?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
+                  >
+                }
+              >
+            }
+          }
         >
       }
       collectionHero?: StorefrontAPI.Maybe<{
@@ -303,13 +367,31 @@ export type ProductFragment = Pick<
   StorefrontAPI.Product,
   | 'id'
   | 'title'
-  | 'vendor'
   | 'handle'
   | 'descriptionHtml'
   | 'description'
   | 'encodedVariantExistence'
   | 'encodedVariantAvailability'
-> & { seo: Pick<StorefrontAPI.Seo, 'description' | 'title'> }
+> & {
+  seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>
+  variants: {
+    nodes: Array<
+      Pick<StorefrontAPI.ProductVariant, 'availableForSale' | 'id' | 'sku' | 'title'> & {
+        compareAtPrice?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>>
+        image?: StorefrontAPI.Maybe<
+          { __typename: 'Image' } & Pick<
+            StorefrontAPI.Image,
+            'id' | 'url' | 'altText' | 'width' | 'height'
+          >
+        >
+        price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+        product: Pick<StorefrontAPI.Product, 'title' | 'handle'>
+        selectedOptions: Array<Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>>
+        unitPrice?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>>
+      }
+    >
+  }
+}
 
 export type ProductQueryVariables = StorefrontAPI.Exact<{
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>
@@ -323,13 +405,33 @@ export type ProductQuery = {
       StorefrontAPI.Product,
       | 'id'
       | 'title'
-      | 'vendor'
       | 'handle'
       | 'descriptionHtml'
       | 'description'
       | 'encodedVariantExistence'
       | 'encodedVariantAvailability'
-    > & { seo: Pick<StorefrontAPI.Seo, 'description' | 'title'> }
+    > & {
+      seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>
+      variants: {
+        nodes: Array<
+          Pick<StorefrontAPI.ProductVariant, 'availableForSale' | 'id' | 'sku' | 'title'> & {
+            compareAtPrice?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+            >
+            image?: StorefrontAPI.Maybe<
+              { __typename: 'Image' } & Pick<
+                StorefrontAPI.Image,
+                'id' | 'url' | 'altText' | 'width' | 'height'
+              >
+            >
+            price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+            product: Pick<StorefrontAPI.Product, 'title' | 'handle'>
+            selectedOptions: Array<Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>>
+            unitPrice?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>>
+          }
+        >
+      }
+    }
   >
 }
 
@@ -502,7 +604,7 @@ export type CartApiQueryFragment = Pick<
 }
 
 interface GeneratedQueryTypes {
-  '#graphql\nquery Collection(\n    $handle: String!,\n    $country: CountryCode,\n    $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      ...Collection\n    }\n  }\n  #graphql\nfragment Collection on Collection {\n  id\n  handle\n  seo {\n    title\n    description\n  }\n  title\n  description\n  descriptionHtml\n  image {\n    url\n    altText\n    width\n    height\n  }\n  sections:metafield(namespace:"custom",key:"sections"){\n    references(first: 50) {\n      nodes {\n        ... on Metaobject {\n          type\n          id\n        }\n      }\n    }\n  }\n  products(first: 250) {\n    nodes {\n      ...Product\n    }\n  }\n  collectionHero:metafield(namespace:"custom",key:"collection_hero") {\n    reference {\n      ...HeroBanner\n    }\n  }\n}\n#graphql\nfragment HeroBanner on Metaobject {\n    id\n    type\n    title: field(key: "title") {\n        value\n      }\n      subtitle: field(key: "subtitle") {\n        value\n      }\n      image: field(key: "image") {\n        reference {\n          ...MediaImage\n          }\n        }\n      mobileImage: field(key: "mobile_image") {\n        reference {\n          ...MediaImage\n        }\n      }\n      hideOnMobile: field(key: "hide_on_mobile") {\n        value\n      }\n      textPosition: field(key: "text_position") {\n        value\n      }\n}\n#graphql\n  fragment MediaImage on MediaImage {\n    __typename\n    id\n    image {\n      altText\n      height\n      url\n      width\n    }\n  }\n\n \n#graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    seo {\n      description\n      title\n    }\n  }\n\n\n': {
+  '#graphql\nquery Collection(\n    $handle: String!,\n    $country: CountryCode,\n    $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      ...Collection\n    }\n  }\n  #graphql\nfragment Collection on Collection {\n  id\n  handle\n  seo {\n    title\n    description\n  }\n  title\n  description\n  descriptionHtml\n  image {\n    __typename\n    url\n    altText\n    width\n    height\n  }\n  sections:metafield(namespace:"custom",key:"sections"){\n    references(first: 50) {\n      nodes {\n        ... on Metaobject {\n          type\n          id\n        }\n      }\n    }\n  }\n  products(first: 250) {\n    nodes {\n      ...CollectionProductCard\n    }\n  }\n  collectionHero:metafield(namespace:"custom",key:"collection_hero") {\n    reference {\n      ...HeroBanner\n    }\n  }\n}\n#graphql\nfragment HeroBanner on Metaobject {\n    id\n    type\n    title: field(key: "title") {\n        value\n      }\n      subtitle: field(key: "subtitle") {\n        value\n      }\n      image: field(key: "image") {\n        reference {\n          ...MediaImage\n          }\n        }\n      mobileImage: field(key: "mobile_image") {\n        reference {\n          ...MediaImage\n        }\n      }\n      hideOnMobile: field(key: "hide_on_mobile") {\n        value\n      }\n      textPosition: field(key: "text_position") {\n        value\n      }\n}\n#graphql\n  fragment MediaImage on MediaImage {\n    __typename\n    id\n    image {\n      altText\n      height\n      url\n      width\n    }\n  }\n\n \n#graphql\nfragment CollectionProductCard on Product {\n  id\n  title\n  handle\n  productType\n  featuredImage {\n    __typename\n    url\n    height\n    width\n    altText\n  }\n  images (first: 10) {\n      nodes  {\n        __typename\n        altText\n        height\n        width\n        url\n      }\n  }\n  variants(first: 20) {\n    nodes {\n      ...CollectionProductVariant\n    }\n  }\n}\n#graphql\nfragment CollectionProductVariant on ProductVariant {\n  id\n  title\n  price {\n    currencyCode\n    amount\n  }\n  compareAtPrice {\n    currencyCode\n    amount\n  }\n\n}\n\n\n\n': {
     return: CollectionQuery
     variables: CollectionQueryVariables
   }
@@ -526,7 +628,7 @@ interface GeneratedQueryTypes {
     return: LayoutQuery
     variables: LayoutQueryVariables
   }
-  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    seo {\n      description\n      title\n    }\n  }\n\n': {
+  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    seo {\n      description\n      title\n    }\n    variants(first: 20) {\n      nodes {\n        ...ProductVariant\n      }\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n\n': {
     return: ProductQuery
     variables: ProductQueryVariables
   }

@@ -40,7 +40,6 @@ export const PRODUCT_FRAGMENT = `#graphql
   fragment Product on Product {
     id
     title
-    vendor
     handle
     descriptionHtml
     description
@@ -50,7 +49,13 @@ export const PRODUCT_FRAGMENT = `#graphql
       description
       title
     }
+    variants(first: 20) {
+      nodes {
+        ...ProductVariant
+      }
+    }
   }
+  ${PRODUCT_VARIANT_FRAGMENT}
 ` as const;
 
 export const PRODUCT_QUERY = `#graphql

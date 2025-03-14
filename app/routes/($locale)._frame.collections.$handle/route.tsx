@@ -4,6 +4,8 @@ import { LoaderFunctionArgs, json } from '@shopify/remix-oxygen'
 import { COLLECTION_QUERY } from '~/graphql/collection'
 import { RenderSections, fetchSectionData } from '~/helpers/sections'
 import { makeCacheShortEdge } from '~/lib/cache'
+import Collection from '~/sections/Collection'
+import { CollectionProps } from '~/sections/Collection/types'
 import HeroBanner from '~/sections/HeroBanner'
 import { LoaderData } from '~/types/remix'
 
@@ -17,9 +19,8 @@ export async function loader({
     cache: makeCacheShortEdge(storefront),
     variables: { country, language, handle: handle || '' },
   }
-console.log('handle', handle)
-  const { collection } = await storefront.query(COLLECTION_QUERY, queryParams)
 
+  const { collection } = await storefront.query(COLLECTION_QUERY, queryParams)
 
   // if (!collection) {
   //   throw new Response('Collection not found', { status: 404 })
@@ -35,20 +36,19 @@ console.log('handle', handle)
 }
 
 const CollectionPage = () => {
-    const { collection, sections } = useLoaderData() as LoaderData['collection']
-    const heroBanner = collection?.collectionHero?.reference || null
-    console.log('collection', collection)
-    return (
-      <>
-        {/* <HeroBanner {...heroBanner} />
-        <CollectionProducts {...collection} /> */}
-  
-        {sections?.map((section) => (
-          <RenderSections key={section?.metaobject?.id} sectionData={section?.metaobject} />
-        ))}
-      </>
-    )
-  }
-  
-  export default CollectionPage
-  
+  const { collection, sections } = useLoaderData() as LoaderData['collection']
+  const heroBanner = collection?.collectionHero?.reference || null
+  console.log('collection', collection)
+  return (
+    <>
+      {heroBanner ? <HeroBanner {...heroBanner} /> : null}
+      <Collection {...(collection as Required<CollectionProps>)} />
+
+      {sections?.map((section) => (
+        <RenderSections key={section?.metaobject?.id} sectionData={section?.metaobject} />
+      ))}
+    </>
+  )
+}
+
+export default CollectionPage
